@@ -4,14 +4,14 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Task Manager",
-  description: "Gerenciador simples de tarefas",
+  description: "A simple task manager",
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="en">
       <body>
         <TRPCProvider>{children}</TRPCProvider>
       </body>

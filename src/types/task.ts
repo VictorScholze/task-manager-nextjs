@@ -1,6 +1,6 @@
 export type Task = {
   id: string;
-  titulo: string;
-  descricao?: string;
-  dataCriacao: number;
+  title: string;
+  description?: string;
+  createdAt: number;
 };

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { TRPCError } from "@trpc/server";
 import { TaskForm } from "@/components/task-form";
@@ -16,7 +15,7 @@ export default async function EditTaskPage({
     return (
       <main className="mx-auto max-w-xl px-4 py-10">
         <p className="text-sm font-medium text-blue-700">TASK MANAGER</p>
-        <h1 className="mb-6 mt-1 text-3xl font-bold">Editar tarefa</h1>
+        <h1 className="mb-6 mt-1 text-3xl font-bold">Edit Task</h1>
         <TaskForm task={task} />
       </main>
     );

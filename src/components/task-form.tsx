@@ -8,8 +8,8 @@ import { trpc } from "@/trpc/client";
 
 export function TaskForm({ task }: { task?: Task }) {
   const router = useRouter();
-  const [titulo, setTitulo] = useState(task?.titulo ?? "");
-  const [descricao, setDescricao] = useState(task?.descricao ?? "");
+  const [title, setTitle] = useState(task?.title ?? "");
+  const [description, setDescription] = useState(task?.description ?? "");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -17,7 +17,7 @@ export function TaskForm({ task }: { task?: Task }) {
 
   const createTask = trpc.task.create.useMutation({
     onSuccess: async () => {
-      setSuccess("Tarefa criada com sucesso.");
+      setSuccess("Task created successfully.");
       await utils.task.list.invalidate();
       router.push("/tasks");
       router.refresh();
@@ -27,7 +27,7 @@ export function TaskForm({ task }: { task?: Task }) {
 
   const updateTask = trpc.task.update.useMutation({
     onSuccess: async () => {
-      setSuccess("Tarefa atualizada com sucesso.");
+      setSuccess("Task updated successfully.");
       await utils.task.list.invalidate();
       router.push("/tasks");
       router.refresh();
@@ -42,15 +42,15 @@ export function TaskForm({ task }: { task?: Task }) {
     setError("");
     setSuccess("");
 
-    const normalizedTitle = titulo.trim();
+    const normalizedTitle = title.trim();
     if (!normalizedTitle) {
-      setError("O título é obrigatório.");
+      setError("Title is required.");
       return;
     }
 
     const data = {
-      titulo: normalizedTitle,
-      descricao: descricao.trim() || undefined,
+      title: normalizedTitle,
+      description: description.trim() || undefined,
     };
 
     if (task) {
@@ -63,32 +63,32 @@ export function TaskForm({ task }: { task?: Task }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5 rounded-xl border bg-white p-6">
       <div>
-        <label htmlFor="titulo" className="mb-1.5 block text-sm font-semibold">
-          Título <span className="text-red-600">*</span>
+        <label htmlFor="title" className="mb-1.5 block text-sm font-semibold">
+          Title <span className="text-red-600">*</span>
         </label>
         <input
-          id="titulo"
-          name="titulo"
-          value={titulo}
-          onChange={(event) => setTitulo(event.target.value)}
+          id="title"
+          name="title"
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
           maxLength={150}
           required
-          placeholder="Ex.: Finalizar relatório"
+          placeholder="e.g. Finish report"
           className="w-full rounded-lg border border-slate-300 px-3 py-2.5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
         />
       </div>
 
       <div>
-        <label htmlFor="descricao" className="mb-1.5 block text-sm font-semibold">
-          Descrição
+        <label htmlFor="description" className="mb-1.5 block text-sm font-semibold">
+          Description
         </label>
         <textarea
-          id="descricao"
-          name="descricao"
-          value={descricao}
-          onChange={(event) => setDescricao(event.target.value)}
+          id="description"
+          name="description"
+          value={description}
+          onChange={(event) => setDescription(event.target.value)}
           rows={5}
-          placeholder="Detalhes da tarefa (opcional)"
+          placeholder="Task details (optional)"
           className="w-full resize-y rounded-lg border border-slate-300 px-3 py-2.5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
         />
       </div>
@@ -102,10 +102,10 @@ export function TaskForm({ task }: { task?: Task }) {
           disabled={isPending}
           className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
         >
-          {isPending ? "Salvando..." : task ? "Salvar alterações" : "Criar tarefa"}
+          {isPending ? "Saving..." : task ? "Save changes" : "Create task"}
         </button>
         <Link href="/tasks" className="text-sm font-medium text-slate-600 hover:underline">
-          Cancelar
+          Cancel
         </Link>
       </div>
     </form>

@@ -4,8 +4,8 @@ import { taskRepository } from "@/server/repositories/task-repository";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 const taskFields = {
-  titulo: z.string().trim().min(1, "O título é obrigatório").max(150),
-  descricao: z.string().optional(),
+  title: z.string().trim().min(1, "Title is required").max(150),
+  description: z.string().optional(),
 };
 
 export const taskRouter = createTRPCRouter({
@@ -18,7 +18,7 @@ export const taskRouter = createTRPCRouter({
       if (!task) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Tarefa não encontrada.",
+          message: "Task not found.",
         });
       }
       return task;
@@ -27,8 +27,8 @@ export const taskRouter = createTRPCRouter({
   create: publicProcedure
     .input(z.object(taskFields))
     .mutation(({ input }) => taskRepository.create({
-      titulo: input.titulo,
-      descricao: input.descricao?.trim() || undefined,
+      title: input.title,
+      description: input.description?.trim() || undefined,
     })),
 
   update: publicProcedure
@@ -39,14 +39,14 @@ export const taskRouter = createTRPCRouter({
     .mutation(({ input }) => {
       const { id, ...data } = input;
       const task = taskRepository.update(id, {
-        titulo: data.titulo,
-        descricao: data.descricao?.trim() || undefined,
+        title: data.title,
+        description: data.description?.trim() || undefined,
       });
 
       if (!task) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Tarefa não encontrada.",
+          message: "Task not found.",
         });
       }
       return task;
@@ -59,7 +59,7 @@ export const taskRouter = createTRPCRouter({
       if (!deleted) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Tarefa não encontrada.",
+          message: "Task not found.",
         });
       }
       return { success: true };

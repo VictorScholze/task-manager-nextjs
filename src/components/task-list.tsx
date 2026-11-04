@@ -15,7 +15,7 @@ export function TaskList({ initialTasks }: { initialTasks: Task[] }) {
 
   const deleteTask = trpc.task.delete.useMutation({
     onSuccess: async () => {
-      setMessage("Tarefa excluída com sucesso.");
+      setMessage("Task deleted successfully.");
       await utils.task.list.invalidate();
     },
     onError: (error) => setMessage(error.message),
@@ -26,9 +26,9 @@ export function TaskList({ initialTasks }: { initialTasks: Task[] }) {
   if (tasks.length === 0) {
     return (
       <section className="rounded-xl border border-dashed bg-white p-10 text-center">
-        <h2 className="font-semibold">Nenhuma tarefa por enquanto</h2>
+        <h2 className="font-semibold">No tasks yet</h2>
         <p className="mt-2 text-sm text-slate-500">
-          Crie sua primeira tarefa para começar.
+          Create your first task to get started.
         </p>
       </section>
     );
@@ -42,36 +42,36 @@ export function TaskList({ initialTasks }: { initialTasks: Task[] }) {
         </p>
       )}
       {deleteTask.isPending && (
-        <p className="mb-3 text-sm text-slate-500">Excluindo tarefa...</p>
+        <p className="mb-3 text-sm text-slate-500">Deleting task...</p>
       )}
       <ul className="space-y-3">
         {tasks.map((task) => (
           <li key={task.id} className="flex flex-col gap-4 rounded-xl border bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
             <div className="min-w-0">
-              <h2 className="break-words font-semibold">{task.titulo}</h2>
+              <h2 className="break-words font-semibold">{task.title}</h2>
               <p className="mt-1 whitespace-pre-wrap break-words text-sm text-slate-600">
-                {task.descricao || "Sem descrição"}
+                {task.description || "No description"}
               </p>
               <p className="mt-2 text-xs text-slate-400">
-                Criada em {new Date(task.dataCriacao).toLocaleString("pt-BR")}
+                Created on {new Date(task.createdAt).toLocaleString("en-US")}
               </p>
             </div>
             <div className="flex shrink-0 items-center gap-3">
               <Link className="text-sm font-medium text-blue-700 hover:underline" href={`/tasks/${task.id}/edit`}>
-                Editar
+                Edit
               </Link>
               <button
                 type="button"
                 disabled={deleteTask.isPending}
                 className="text-sm font-medium text-red-600 hover:underline"
                 onClick={() => {
-                  if (window.confirm(`Excluir "${task.titulo}"?`)) {
+                  if (window.confirm(`Delete "${task.title}"?`)) {
                     setMessage("");
                     deleteTask.mutate({ id: task.id });
                   }
                 }}
               >
-                Excluir
+                Delete
               </button>
             </div>
           </li>

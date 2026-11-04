@@ -6,7 +6,7 @@ const tasks = new Map<string, Task>();
 export const taskRepository = {
   list(): Task[] {
     return Array.from(tasks.values()).sort(
-      (a, b) => b.dataCriacao - a.dataCriacao,
+      (a, b) => b.createdAt - a.createdAt,
     );
   },
 
@@ -14,12 +14,12 @@ export const taskRepository = {
     return tasks.get(id);
   },
 
-  create(data: Pick<Task, "titulo" | "descricao">): Task {
+  create(data: Pick<Task, "title" | "description">): Task {
     const task: Task = {
       id: randomUUID(),
-      titulo: data.titulo,
-      descricao: data.descricao,
-      dataCriacao: Date.now(),
+      title: data.title,
+      description: data.description,
+      createdAt: Date.now(),
     };
 
     tasks.set(task.id, task);
@@ -28,15 +28,15 @@ export const taskRepository = {
 
   update(
     id: string,
-    data: Pick<Task, "titulo" | "descricao">,
+    data: Pick<Task, "title" | "description">,
   ): Task | undefined {
     const existing = tasks.get(id);
     if (!existing) return undefined;
 
     const updated: Task = {
       ...existing,
-      titulo: data.titulo,
-      descricao: data.descricao,
+      title: data.title,
+      description: data.description,
     };
 
     tasks.set(id, updated);

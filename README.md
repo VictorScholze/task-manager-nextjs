@@ -1,60 +1,33 @@
 # Task Manager
 
-Aplicação simples de gerenciamento de tarefas usando Next.js 15, React, TypeScript e tRPC v11.
+A simple task management application built with Next.js 15, React, TypeScript, and tRPC v11.
 
-## Requisitos
+## Requirements
 
 - Node.js 20+
 - npm
 
-## Executar localmente
+## Run Locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Acesse http://localhost:3000.
+Open http://localhost:3000.
 
-## Funcionalidades
+## Features
 
-- Listagem de tarefas com renderização no servidor (SSR).
-- Criar, editar e excluir tarefas.
-- Validação de título no frontend e backend.
-- Mensagens de sucesso/erro e estado de carregamento.
-- Dados armazenados em memória (sem banco de dados).
+- Task list rendered on the server (SSR).
+- Create, edit, and delete tasks.
+- Title validation on both the frontend and backend.
+- Success and error messages, plus loading states.
+- In-memory data storage (no database).
 
-## Decisões técnicas
+## Technical Decisions
 
-- A listagem e a página de edição consultam o router tRPC diretamente no servidor.
-- As operações interativas utilizam o client tRPC com TanStack Query.
-- O Zod valida os inputs no backend.
-- O repository usa um `Map` em memória para manter as tarefas.
-- Os dados são voláteis e podem ser perdidos ao reiniciar o processo. Em ambientes com múltiplas instâncias, cada instância terá seu próprio armazenamento; isso é intencional para o escopo do desafio.
-
-## Estrutura
-
-```text
-src/
-  app/
-    api/trpc/[trpc]/route.ts
-    tasks/
-      [id]/edit/page.tsx
-      new/page.tsx
-      page.tsx
-    layout.tsx
-    page.tsx
-    globals.css
-  components/
-    task-form.tsx
-    task-list.tsx
-  server/
-    api/
-      routers/task.ts
-      root.ts
-      trpc.ts
-    repositories/task-repository.ts
-  trpc/
-    client.tsx
-    server.ts
-```
+- The task list and edit page call the tRPC router directly on the server.
+- Interactive operations use the tRPC client with TanStack Query.
+- Zod validates backend inputs.
+- The repository uses an in-memory `Map` to store tasks.
+- Data is volatile and may be lost when the process restarts. In multi-instance environments, each instance has its own storage; this is intentional for the scope of this challenge.
