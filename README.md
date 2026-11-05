@@ -16,6 +16,14 @@ npm run dev
 
 Open http://localhost:3000.
 
+## Run with docker
+
+```bash
+docker compose up --build 
+```
+
+Open http://localhost:3000.
+
 ## Features
 
 - Task list rendered on the server (SSR).
@@ -27,7 +35,13 @@ Open http://localhost:3000.
 ## Technical Decisions
 
 - The task list and edit page call the tRPC router directly on the server.
-- Interactive operations use the tRPC client with TanStack Query.
-- Zod validates backend inputs.
-- The repository uses an in-memory `Map` to store tasks.
-- Data is volatile and may be lost when the process restarts. In multi-instance environments, each instance has its own storage; this is intentional for the scope of this challenge.
+- Interactive operations use the tRPC client with TanStack Query. TanStack Query ensures the server response will be loaded before rendering the UI. 
+- Zod validates backend inputs. Zod naturally integrates with tRPC, providing easier implementation and it defines input contract only once.
+- The repository uses an in-memory `Map` to store tasks, separating data access from core business rules.
+- Using Docker ensures that the application runs correctly regardless of the installed Node versions, since the generated image is always the same.
+
+## Future implementations
+
+- Multi-stage build to reduce final image size.
+- Database implementation. SQL adequately meets current requirements, but if more complex or variable data types become necessary in the future, a NoSQL database might be a better choice. 
+- Authentication: NextAuth or OAuth provider
